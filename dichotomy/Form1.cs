@@ -7,97 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace dichotomy
 {
     public partial class Form1 : Form
     {
-        private readonly double golden = (1 + Math.Sqrt(5)) / 2; // Золотое сечение
-        private Label lblFormula;
-        private Label lblIntervalStart;
-        private Label lblIntervalEnd;
-        private Label lblPrecision;
-        private TextBox txtInterval1;
-        private TextBox txtInterval2;
-        private TextBox txtAccuracy;
+        
         public Form1()
         {
             InitializeComponent();
-
-            // Создание и настройка элементов управления
-            lblFormula = new Label();
-            lblFormula.Location = new Point(50, 50);
-            lblFormula.Size = new Size(200, 40);
-            lblFormula.Text = "Мы проводим расчет по формуле:\n y = (27 - 18x + 2x^2) * e^(-x/3)";
-            this.Controls.Add(lblFormula);
-
-            lblIntervalStart = new Label();
-            lblIntervalStart.Location = new Point(20, 100);
-            lblIntervalStart.Size = new Size(100, 20);
-            lblIntervalStart.Text = "Начало интервала";
-            this.Controls.Add(lblIntervalStart);
-
-            txtInterval1 = new TextBox();
-            txtInterval1.Location = new Point(150, 100);
-            txtInterval1.Size = new Size(200, 20);
-            txtInterval1.KeyPress += NumericTextBox_KeyPress;
-            this.Controls.Add(txtInterval1);
-
-
-            lblIntervalEnd = new Label();
-            lblIntervalEnd.Location = new Point(20, 130);
-            lblIntervalEnd.Size = new Size(100, 20);
-            lblIntervalEnd.Text = "Конец интервала";
-            this.Controls.Add(lblIntervalEnd);
-
-            txtInterval2 = new TextBox();
-            txtInterval2.Location = new Point(150, 130);
-            txtInterval2.Size = new Size(200, 20);
-            txtInterval2.KeyPress += NumericTextBox_KeyPress;
-            this.Controls.Add(txtInterval2);
-
-            lblPrecision = new Label();
-            lblPrecision.Location = new Point(20, 160);
-            lblPrecision.Size = new Size(100, 20);
-            lblPrecision.Text = "Нужная точность";
-            this.Controls.Add(lblPrecision);
-
-            txtAccuracy = new TextBox();
-            txtAccuracy.Location = new Point(150, 160);
-            txtAccuracy.Size = new Size(200, 20);
-            txtAccuracy.KeyPress += NumericTextBox_KeyPress;
-            this.Controls.Add(txtAccuracy);
-
-            // Добавляем MenuStrip на форму
-            MenuStrip menuStrip = new MenuStrip();
-            this.Controls.Add(menuStrip);
-
-            // Добавляем пункты меню
-            ToolStripMenuItem запуститьToolStripMenuItem = new ToolStripMenuItem();
-            ToolStripMenuItem очиститьToolStripMenuItem = new ToolStripMenuItem();
-
-            // Настраиваем пункты меню
-            запуститьToolStripMenuItem.Name = "запуститьToolStripMenuItem";
-            запуститьToolStripMenuItem.Text = "Запустить";
-            запуститьToolStripMenuItem.Click += new EventHandler(запуститьToolStripMenuItem_Click);
-
-            очиститьToolStripMenuItem.Name = "очиститьToolStripMenuItem";
-            очиститьToolStripMenuItem.Text = "Очистить";
-            очиститьToolStripMenuItem.Click += new EventHandler(очиститьToolStripMenuItem_Click);
-
-            // Добавляем пункты меню в MenuStrip
-            menuStrip.Items.AddRange(new ToolStripItem[] { запуститьToolStripMenuItem, очиститьToolStripMenuItem });
         }
 
-        private void NumericTextBox_KeyPress(object sender, KeyPressEventArgs eventArgs)
-        {
-            // Проверка правильности ввода чисел
-            if (!char.IsControl(eventArgs.KeyChar) && !char.IsDigit(eventArgs.KeyChar) && eventArgs.KeyChar != ',' && eventArgs.KeyChar != '-')
-            {
-                eventArgs.Handled = true;
-            }
-        }
-
+        
         // Обработчики событий для пунктов меню
         private void запуститьToolStripMenuItem_Click(object sender, EventArgs eventArgs)
         {
@@ -105,23 +27,95 @@ namespace dichotomy
             int accuracy;
 
             // Проверка правильности ввода и получение значений из TextBox
-            if (!double.TryParse(txtInterval1.Text, out interval1) || !double.TryParse(txtInterval2.Text, out interval2)
-                || !int.TryParse(txtAccuracy.Text, out accuracy) || interval1 >= interval2)
+            if (!double.TryParse(txtInterval1.Text, out interval1) || !double.TryParse(txtInterval2.Text, out interval2) || interval1 >= interval2)
             {
-                MessageBox.Show("Пожалуйста, введите корректные значения для интервала и точности.");
+                MessageBox.Show("Пожалуйста, введите корректные значения для интервала.");
                 return;
             }
+
+            string accuracyString = txtAccuracy.Text.Trim();
+            if (accuracyString.Contains('-'))
+            {
+                MessageBox.Show("Пожалуйста, введите положительное значение для точности.");
+                return;
+            }
+            else
+            {
+                if (accuracyString.Contains(','))
+                {
+                    // Подсчет количества знаков после запятой
+                    int decimalPlaces = accuracyString.Length - accuracyString.IndexOf(',') - 1;
+                    accuracy = decimalPlaces;
+                }
+                else
+                {
+                    // Проверка корректности ввода для accuracy
+                    if (!int.TryParse(accuracyString, out accuracy))
+                    {
+                        MessageBox.Show("Пожалуйста, введите корректное значение для точности.");
+                        return;
+                    }
+                }
+            }
+            
+
 
             // Решение задачи методом дихотомии
             double resultDichotomy = Dichotomy(interval1, interval2, accuracy);
             // Решение задачи с помощью золотого сечения
             double resultMin = GoldenSection(interval1, interval2, accuracy);
             double resultMax = AntiGoldenSection(interval1, interval2, accuracy);
-            MessageBox.Show($"Ноль функции: {resultDichotomy}\n" + $"Точка минимума: {resultMin}\n" + $"Точка максимума: {resultMax}");
+            string dichotomyResult;
+            string minResult;
+            string maxResult;
+            if (resultDichotomy == interval1 || resultDichotomy == interval2)
+            {
+                dichotomyResult = "Точки пересечения нет на данном интервале";
+            }
+            else
+            {
+                dichotomyResult = resultDichotomy.ToString();
+            }
+            if (resultMin == interval1 || resultMin == interval2)
+            {
+                minResult = "Точки минимума нет на данном интервале";
+            }
+            else
+            {
+                minResult = resultMin.ToString();
+            }
+            if (resultMax == interval1 || resultMax == interval2)
+            {
+                maxResult = "Точки максимума нет на данном интервале";
+            }
+            else
+            {
+                maxResult = resultMax.ToString();
+            }
+            chart1_Click(sender, eventArgs);
+            MessageBox.Show($"Ноль функции: {dichotomyResult}\n" + $"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult}");
 
 
         }
 
+        private void chart1_Click(object sender, EventArgs eventArgs)
+        {
+            double interval1 = double.Parse(txtInterval1.Text);
+            double leftBorder = interval1 - 1;
+            double interval2 = double.Parse(txtInterval2.Text);
+            double rightBorder = interval2 + 1;
+            double CoordStep = 0.1;
+            double CoordX;
+            double CoordY;
+            this.chart1.Series[0].Points.Clear();
+            CoordX = leftBorder + CoordStep;
+            while (CoordX <= rightBorder)
+            {
+                CoordY = Func(CoordX);
+                this.chart1.Series[0].Points.AddXY(CoordX, CoordY);
+                CoordX += CoordStep;
+            }
+        }
         private double Func(double x)
         {
             return (27 - 18 * x + 2 * Math.Pow(x, 2)) * Math.Exp(-x / 3);
@@ -176,7 +170,7 @@ namespace dichotomy
         }
         private double Dichotomy(double interval1, double interval2, int accuracy)
         {
-            double x1 = interval1; 
+            double x1 = interval1;
             double x2 = interval2;
             double x3 = (x1 + x2) / 2;
             while (Math.Abs(x2 - x1) > Math.Pow(10, -accuracy))
@@ -196,8 +190,11 @@ namespace dichotomy
                 }
                 x3 = (x1 + x2) / 2;
             }
-
-            return Math.Round(x3, accuracy);
+            if ((27 - 18 * x3 + 2 * Math.Pow(x3, 2)) * Math.Exp(-x3 / 3) < 0 + x3 && (27 - 18 * x3 + 2 * Math.Pow(x3, 2)) * Math.Exp(-x3 / 3) > 0 - x3)
+            {
+                return Math.Round(x3, accuracy);
+            }
+            return 0;
         }
 
 
@@ -207,7 +204,9 @@ namespace dichotomy
             txtInterval1.Clear();
             txtInterval2.Clear();
             txtAccuracy.Clear();
+            this.chart1.Series[0].Points.Clear();
         }
 
+        
     }
 }
