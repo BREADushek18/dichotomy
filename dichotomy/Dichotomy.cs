@@ -11,16 +11,14 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace dichotomy
 {
-    public partial class Form1 : Form
+    public partial class DichotomyForm : Form
     {
-        
-        public Form1()
+        public DichotomyForm()
         {
             InitializeComponent();
         }
 
-        
-        // Обработчики событий для пунктов меню
+        // Обработчик событий для пункта меню "Запустить"
         private void запуститьToolStripMenuItem_Click(object sender, EventArgs eventArgs)
         {
             double interval1, interval2;
@@ -57,17 +55,9 @@ namespace dichotomy
                     }
                 }
             }
-            
-
-
             // Решение задачи методом дихотомии
             double resultDichotomy = Dichotomy(interval1, interval2, accuracy);
-            // Решение задачи с помощью золотого сечения
-            double resultMin = GoldenSection(interval1, interval2, accuracy);
-            double resultMax = AntiGoldenSection(interval1, interval2, accuracy);
             string dichotomyResult;
-            string minResult;
-            string maxResult;
             if (resultDichotomy == interval1 || resultDichotomy == interval2)
             {
                 dichotomyResult = "Точки пересечения нет на данном интервале";
@@ -76,98 +66,46 @@ namespace dichotomy
             {
                 dichotomyResult = resultDichotomy.ToString();
             }
-            if (resultMin == interval1 || resultMin == interval2)
-            {
-                minResult = "Точки минимума нет на данном интервале";
-            }
-            else
-            {
-                minResult = resultMin.ToString();
-            }
-            if (resultMax == interval1 || resultMax == interval2)
-            {
-                maxResult = "Точки максимума нет на данном интервале";
-            }
-            else
-            {
-                maxResult = resultMax.ToString();
-            }
-            chart1_Click(sender, eventArgs);
-            MessageBox.Show($"Ноль функции: {dichotomyResult}\n" + $"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult}");
-
-
+            chartDichotomy_Click(sender, eventArgs);
+            MessageBox.Show($"Ноль функции: {dichotomyResult}");
         }
 
-        private void chart1_Click(object sender, EventArgs eventArgs)
+        private void chartDichotomy_Click(object sender, EventArgs eventArgs)
         {
-            double interval1 = double.Parse(txtInterval1.Text);
-            double leftBorder = interval1 - 1;
-            double interval2 = double.Parse(txtInterval2.Text);
-            double rightBorder = interval2 + 1;
+            double interval1Value = double.Parse(txtInterval1.Text);
+            double leftBorder = interval1Value - 1;
+            double interval2Value = double.Parse(txtInterval2.Text);
+            double rightBorder = interval2Value + 1;
             double CoordStep = 0.1;
             double CoordX;
             double CoordY;
-            this.chart1.Series[0].Points.Clear();
+            this.chartDichotomy.Series[0].Points.Clear();
+            chartDichotomy.ChartAreas[0].AxisX.Interval = 1;
             CoordX = leftBorder + CoordStep;
             while (CoordX <= rightBorder)
             {
                 CoordY = Func(CoordX);
-                this.chart1.Series[0].Points.AddXY(CoordX, CoordY);
+                this.chartDichotomy.Series[0].Points.AddXY(CoordX, CoordY);
                 CoordX += CoordStep;
             }
         }
+        // Обработчик событий для пункта меню "Очистить"
+        private void очиститьToolStripMenuItem_Click(object sender, EventArgs eventArgs)
+        {
+            // Очистка всех полей ввода
+            txtInterval1.Clear();
+            txtInterval2.Clear();
+            txtAccuracy.Clear();
+            chartDichotomy.Series[0].Points.Clear(); 
+        }
+
+        // Метод функции
         private double Func(double x)
         {
             return (27 - 18 * x + 2 * Math.Pow(x, 2)) * Math.Exp(-x / 3);
         }
-        private double AntiFunc(double x)
-        {
-            return -((27 - 18 * x + 2 * Math.Pow(x, 2)) * Math.Exp(-x / 3));
-        }
-        private double GoldenSection(double interval1, double interval2, int accuracy)
-        {
-            double a = interval1, b = interval2;
-            double x1 = b - (b - a) / golden;
-            double x2 = a + (b - a) / golden;
-            while (Math.Abs(b - a) > Math.Pow(10, -accuracy))
-            {
-                if (Func(x1) < Func(x2))
-                {
-                    b = x2;
-                }
-                else
-                {
-                    a = x1;
-                }
 
-                x1 = b - (b - a) / golden;
-                x2 = a + (b - a) / golden;
-            }
-
-            return Math.Round((a + b) / 2, accuracy);
-        }
-        private double AntiGoldenSection(double interval1, double interval2, int accuracy)
-        {
-            double a = interval1, b = interval2;
-            double x1 = b - (b - a) / golden;
-            double x2 = a + (b - a) / golden;
-            while (Math.Abs(b - a) > Math.Pow(10, -accuracy))
-            {
-                if (AntiFunc(x1) < AntiFunc(x2))
-                {
-                    b = x2;
-                }
-                else
-                {
-                    a = x1;
-                }
-
-                x1 = b - (b - a) / golden;
-                x2 = a + (b - a) / golden;
-            }
-
-            return Math.Round((a + b) / 2, accuracy);
-        }
+        // Метод Дихотомии
         private double Dichotomy(double interval1, double interval2, int accuracy)
         {
             double x1 = interval1;
@@ -196,17 +134,52 @@ namespace dichotomy
             }
             return 0;
         }
-
-
-        private void очиститьToolStripMenuItem_Click(object sender, EventArgs eventArgs)
+        private void очиститьDichotomyToolStripMenuItem_Click(object sender, EventArgs eventArgs)
         {
             // Очистка всех полей ввода
             txtInterval1.Clear();
             txtInterval2.Clear();
             txtAccuracy.Clear();
-            this.chart1.Series[0].Points.Clear();
+            this.chartDichotomy.Series[0].Points.Clear();
         }
 
-        
+        private void toolStripComboBox1_Click(object sender, EventArgs e)
+        {
+            // Добавляем методы в ComboBox
+            toolStripComboBox1.Items.Add("Дихотомия");
+            toolStripComboBox1.Items.Add("Золотое сечение");
+            toolStripComboBox1.Items.Add("Ньютон");
+            toolStripComboBox1.Items.Add("Метод покоординатного спуска");
+
+            // Устанавливаем выбранный метод по умолчанию
+            toolStripComboBox1.SelectedItem = "Дихотомия";
+        }
+
+        private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Получаем выбранный метод
+            string selectedMethod = toolStripComboBox1.SelectedItem.ToString();
+
+            // Открываем форму с выбранным методом
+            switch (selectedMethod)
+            {
+                case "Золотое сечение":
+                    Form goldenSectionForm = new GoldenSectionForm();
+                    goldenSectionForm.Show();
+                    Close();
+                    break;
+                //case "Ньютон":
+                //    Form newtonForm = new NewtonForm();
+                //    newtonForm.Show();
+                //    break;
+                //case "Метод покоординатного спуска":
+                //    Form coordinateDescentForm = new CoordinateDescentForm();
+                //    coordinateDescentForm.Show();
+                //    break;
+                default:
+                    // Если выбран Дихотомия, то ничего не делаем
+                    break;
+            }
+        }
     }
 }

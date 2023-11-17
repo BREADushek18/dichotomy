@@ -1,20 +1,16 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace dichotomy
+﻿namespace dichotomy
 {
-    partial class Form1
+    partial class GoldenSectionForm
     {
         /// <summary>
-        /// Обязательная переменная конструктора.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Освободить все используемые ресурсы.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -24,11 +20,11 @@ namespace dichotomy
             base.Dispose(disposing);
         }
 
-        #region Код, автоматически созданный конструктором форм Windows
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -45,6 +41,7 @@ namespace dichotomy
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.запуститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.очиститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -63,17 +60,15 @@ namespace dichotomy
             series1.ShadowColor = System.Drawing.Color.White;
             this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(689, 424);
-            this.chart1.TabIndex = 0;
+            this.chart1.TabIndex = 1;
             this.chart1.Text = "chart1";
-            this.chart1.ChartAreas[0].AxisX.Interval = 1;
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // lblFormula
             // 
             this.lblFormula.Location = new System.Drawing.Point(50, 50);
             this.lblFormula.Name = "lblFormula";
             this.lblFormula.Size = new System.Drawing.Size(200, 40);
-            this.lblFormula.TabIndex = 1;
+            this.lblFormula.TabIndex = 9;
             this.lblFormula.Text = "Мы проводим расчет по формуле:\n y = (27 - 18x + 2x^2) * e^(-x/3)";
             // 
             // lblIntervalStart
@@ -81,7 +76,7 @@ namespace dichotomy
             this.lblIntervalStart.Location = new System.Drawing.Point(20, 100);
             this.lblIntervalStart.Name = "lblIntervalStart";
             this.lblIntervalStart.Size = new System.Drawing.Size(100, 20);
-            this.lblIntervalStart.TabIndex = 2;
+            this.lblIntervalStart.TabIndex = 10;
             this.lblIntervalStart.Text = "Начало интервала";
             // 
             // txtInterval1
@@ -89,14 +84,14 @@ namespace dichotomy
             this.txtInterval1.Location = new System.Drawing.Point(150, 100);
             this.txtInterval1.Name = "txtInterval1";
             this.txtInterval1.Size = new System.Drawing.Size(200, 20);
-            this.txtInterval1.TabIndex = 3;
+            this.txtInterval1.TabIndex = 11;
             // 
             // lblIntervalEnd
             // 
             this.lblIntervalEnd.Location = new System.Drawing.Point(20, 130);
             this.lblIntervalEnd.Name = "lblIntervalEnd";
             this.lblIntervalEnd.Size = new System.Drawing.Size(100, 20);
-            this.lblIntervalEnd.TabIndex = 4;
+            this.lblIntervalEnd.TabIndex = 12;
             this.lblIntervalEnd.Text = "Конец интервала";
             // 
             // txtInterval2
@@ -104,14 +99,14 @@ namespace dichotomy
             this.txtInterval2.Location = new System.Drawing.Point(150, 130);
             this.txtInterval2.Name = "txtInterval2";
             this.txtInterval2.Size = new System.Drawing.Size(200, 20);
-            this.txtInterval2.TabIndex = 5;
+            this.txtInterval2.TabIndex = 13;
             // 
             // lblPrecision
             // 
             this.lblPrecision.Location = new System.Drawing.Point(20, 160);
             this.lblPrecision.Name = "lblPrecision";
             this.lblPrecision.Size = new System.Drawing.Size(100, 20);
-            this.lblPrecision.TabIndex = 6;
+            this.lblPrecision.TabIndex = 14;
             this.lblPrecision.Text = "Нужная точность";
             // 
             // txtAccuracy
@@ -119,38 +114,41 @@ namespace dichotomy
             this.txtAccuracy.Location = new System.Drawing.Point(150, 160);
             this.txtAccuracy.Name = "txtAccuracy";
             this.txtAccuracy.Size = new System.Drawing.Size(200, 20);
-            this.txtAccuracy.TabIndex = 7;
+            this.txtAccuracy.TabIndex = 15;
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.запуститьToolStripMenuItem,
-            this.очиститьToolStripMenuItem});
+            this.очиститьToolStripMenuItem,
+            this.toolStripComboBox1});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1184, 24);
-            this.menuStrip.TabIndex = 8;
+            this.menuStrip.Size = new System.Drawing.Size(1184, 27);
+            this.menuStrip.TabIndex = 16;
             // 
             // запуститьToolStripMenuItem
             // 
             this.запуститьToolStripMenuItem.Name = "запуститьToolStripMenuItem";
-            this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+            this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(74, 23);
             this.запуститьToolStripMenuItem.Text = "Запустить";
-            this.запуститьToolStripMenuItem.Click += new System.EventHandler(this.запуститьToolStripMenuItem_Click);
             // 
             // очиститьToolStripMenuItem
             // 
             this.очиститьToolStripMenuItem.Name = "очиститьToolStripMenuItem";
-            this.очиститьToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.очиститьToolStripMenuItem.Size = new System.Drawing.Size(71, 23);
             this.очиститьToolStripMenuItem.Text = "Очистить";
-            this.очиститьToolStripMenuItem.Click += new System.EventHandler(this.очиститьToolStripMenuItem_Click);
             // 
-            // Form1
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
+            // 
+            // GoldenSectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 561);
-            this.Controls.Add(this.chart1);
             this.Controls.Add(this.lblFormula);
             this.Controls.Add(this.lblIntervalStart);
             this.Controls.Add(this.txtInterval1);
@@ -159,8 +157,9 @@ namespace dichotomy
             this.Controls.Add(this.lblPrecision);
             this.Controls.Add(this.txtAccuracy);
             this.Controls.Add(this.menuStrip);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Controls.Add(this.chart1);
+            this.Name = "GoldenSectionForm";
+            this.Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
@@ -172,18 +171,16 @@ namespace dichotomy
         #endregion
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-
-        private readonly double golden = (1 + Math.Sqrt(5)) / 2; // Золотое сечение
-        private Label lblFormula;
-        private Label lblIntervalStart;
-        private Label lblIntervalEnd;
-        private Label lblPrecision;
-        private TextBox txtInterval1;
-        private TextBox txtInterval2;
-        private TextBox txtAccuracy;
-        private MenuStrip menuStrip;
-        private ToolStripMenuItem запуститьToolStripMenuItem;
-        private ToolStripMenuItem очиститьToolStripMenuItem;
+        private System.Windows.Forms.Label lblFormula;
+        private System.Windows.Forms.Label lblIntervalStart;
+        private System.Windows.Forms.TextBox txtInterval1;
+        private System.Windows.Forms.Label lblIntervalEnd;
+        private System.Windows.Forms.TextBox txtInterval2;
+        private System.Windows.Forms.Label lblPrecision;
+        private System.Windows.Forms.TextBox txtAccuracy;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem запуститьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem очиститьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
     }
 }
-
