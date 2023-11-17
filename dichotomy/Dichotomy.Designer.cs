@@ -32,8 +32,8 @@ namespace dichotomy
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chartDichotomy = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblFormula = new System.Windows.Forms.Label();
             this.lblIntervalStart = new System.Windows.Forms.Label();
@@ -44,25 +44,34 @@ namespace dichotomy
             this.txtAccuracy = new System.Windows.Forms.TextBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.запуститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.золотоеСечениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.очиститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.ньютонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.олимпиадныеСортировкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.пузырьковаяСортировкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сортировкаВставкамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.шейкернаяСортировкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.быстраяСортировкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сортировкаBOGOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.покоординатныйСпускToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chartDichotomy)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // chartDichotomy
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartDichotomy.ChartAreas.Add(chartArea1);
+            chartArea4.Name = "ChartArea1";
+            this.chartDichotomy.ChartAreas.Add(chartArea4);
             this.chartDichotomy.Location = new System.Drawing.Point(464, 24);
             this.chartDichotomy.Name = "chartDichotomy";
-            series1.BorderWidth = 4;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Color = System.Drawing.Color.Orange;
-            series1.Name = "Series1";
-            series1.ShadowColor = System.Drawing.Color.White;
-            this.chartDichotomy.Series.Add(series1);
+            series4.BorderWidth = 4;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = System.Drawing.Color.Orange;
+            series4.Name = "Series1";
+            series4.ShadowColor = System.Drawing.Color.White;
+            this.chartDichotomy.Series.Add(series4);
             this.chartDichotomy.Size = new System.Drawing.Size(689, 424);
             this.chartDichotomy.TabIndex = 0;
             this.chartDichotomy.Text = "chart1";
@@ -125,19 +134,38 @@ namespace dichotomy
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.запуститьToolStripMenuItem,
-            this.очиститьToolStripMenuItem,
-            this.toolStripComboBox1});
+            this.очиститьToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1184, 27);
+            this.menuStrip.Size = new System.Drawing.Size(1184, 24);
             this.menuStrip.TabIndex = 8;
             // 
             // запуститьToolStripMenuItem
             // 
+            this.запуститьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.золотоеСечениеToolStripMenuItem,
+            this.ньютонToolStripMenuItem,
+            this.олимпиадныеСортировкиToolStripMenuItem,
+            this.покоординатныйСпускToolStripMenuItem});
             this.запуститьToolStripMenuItem.Name = "запуститьToolStripMenuItem";
-            this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(74, 23);
+            this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.запуститьToolStripMenuItem.Text = "Запустить";
             this.запуститьToolStripMenuItem.Click += new System.EventHandler(this.запуститьToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "Дихотомия";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.дихотомияToolStripMenuItem1_Click);
+            // 
+            // золотоеСечениеToolStripMenuItem
+            // 
+            this.золотоеСечениеToolStripMenuItem.Name = "золотоеСечениеToolStripMenuItem";
+            this.золотоеСечениеToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.золотоеСечениеToolStripMenuItem.Text = "Золотое сечение";
+            this.золотоеСечениеToolStripMenuItem.Click += new System.EventHandler(this.золотоеСечениеToolStripMenuItem_Click);
             // 
             // очиститьToolStripMenuItem
             // 
@@ -146,11 +174,61 @@ namespace dichotomy
             this.очиститьToolStripMenuItem.Text = "Очистить";
             this.очиститьToolStripMenuItem.Click += new System.EventHandler(this.очиститьToolStripMenuItem_Click);
             // 
-            // toolStripComboBox1
+            // ньютонToolStripMenuItem
             // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
-            this.toolStripComboBox1.Click += new System.EventHandler(this.toolStripComboBox1_Click);
+            this.ньютонToolStripMenuItem.Name = "ньютонToolStripMenuItem";
+            this.ньютонToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ньютонToolStripMenuItem.Text = "Ньютон";
+            this.ньютонToolStripMenuItem.Click += new System.EventHandler(this.ньютонToolStripMenuItem_Click);
+            // 
+            // олимпиадныеСортировкиToolStripMenuItem
+            // 
+            this.олимпиадныеСортировкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.пузырьковаяСортировкаToolStripMenuItem,
+            this.сортировкаВставкамиToolStripMenuItem,
+            this.шейкернаяСортировкаToolStripMenuItem,
+            this.быстраяСортировкаToolStripMenuItem,
+            this.сортировкаBOGOToolStripMenuItem});
+            this.олимпиадныеСортировкиToolStripMenuItem.Name = "олимпиадныеСортировкиToolStripMenuItem";
+            this.олимпиадныеСортировкиToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.олимпиадныеСортировкиToolStripMenuItem.Text = "Олимпиадные сортировки";
+            // 
+            // пузырьковаяСортировкаToolStripMenuItem
+            // 
+            this.пузырьковаяСортировкаToolStripMenuItem.Name = "пузырьковаяСортировкаToolStripMenuItem";
+            this.пузырьковаяСортировкаToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.пузырьковаяСортировкаToolStripMenuItem.Text = "Пузырьковая сортировка";
+            // 
+            // сортировкаВставкамиToolStripMenuItem
+            // 
+            this.сортировкаВставкамиToolStripMenuItem.Name = "сортировкаВставкамиToolStripMenuItem";
+            this.сортировкаВставкамиToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.сортировкаВставкамиToolStripMenuItem.Text = "Сортировка вставками";
+            // 
+            // шейкернаяСортировкаToolStripMenuItem
+            // 
+            this.шейкернаяСортировкаToolStripMenuItem.Name = "шейкернаяСортировкаToolStripMenuItem";
+            this.шейкернаяСортировкаToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.шейкернаяСортировкаToolStripMenuItem.Text = "Шейкерная сортировка";
+            // 
+            // быстраяСортировкаToolStripMenuItem
+            // 
+            this.быстраяСортировкаToolStripMenuItem.Name = "быстраяСортировкаToolStripMenuItem";
+            this.быстраяСортировкаToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.быстраяСортировкаToolStripMenuItem.Text = "Быстрая сортировка";
+            // 
+            // сортировкаBOGOToolStripMenuItem
+            // 
+            this.сортировкаBOGOToolStripMenuItem.Name = "сортировкаBOGOToolStripMenuItem";
+            this.сортировкаBOGOToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.сортировкаBOGOToolStripMenuItem.Text = "Сортировка BOGO";
+            // 
+            // покоординатныйСпускToolStripMenuItem
+            // 
+            this.покоординатныйСпускToolStripMenuItem.Name = "покоординатныйСпускToolStripMenuItem";
+            this.покоординатныйСпускToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.покоординатныйСпускToolStripMenuItem.Text = "Покоординатный спуск";
+            this.покоординатныйСпускToolStripMenuItem.Click += new System.EventHandler(this.покоординатныйСпускToolStripMenuItem_Click);
             // 
             // DichotomyForm
             // 
@@ -191,7 +269,16 @@ namespace dichotomy
         private MenuStrip menuStrip;
         private ToolStripMenuItem запуститьToolStripMenuItem;
         private ToolStripMenuItem очиститьToolStripMenuItem;
-        private ToolStripComboBox toolStripComboBox1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem золотоеСечениеToolStripMenuItem;
+        private ToolStripMenuItem ньютонToolStripMenuItem;
+        private ToolStripMenuItem олимпиадныеСортировкиToolStripMenuItem;
+        private ToolStripMenuItem пузырьковаяСортировкаToolStripMenuItem;
+        private ToolStripMenuItem сортировкаВставкамиToolStripMenuItem;
+        private ToolStripMenuItem шейкернаяСортировкаToolStripMenuItem;
+        private ToolStripMenuItem быстраяСортировкаToolStripMenuItem;
+        private ToolStripMenuItem сортировкаBOGOToolStripMenuItem;
+        private ToolStripMenuItem покоординатныйСпускToolStripMenuItem;
     }
 }
 
