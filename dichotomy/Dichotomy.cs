@@ -11,6 +11,14 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Serialization;
 using System.Diagnostics;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Differentiation;
+using org.matheval;
+using static org.matheval.Expression;
+using System.Net;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Text.RegularExpressions;
 
 namespace dichotomy
 {
@@ -18,6 +26,14 @@ namespace dichotomy
     {
         double interval1, interval2;
         int accuracy;
+        double Func(double x)
+        {
+            Expression expression = new Expression(FuncTextBox.Text.ToLower());
+            expression.Bind("x", x);
+            decimal value = expression.Eval<decimal>();
+            return (double)value;
+        }
+
         public DichotomyForm()
         {
             InitializeComponent();
@@ -59,7 +75,18 @@ namespace dichotomy
                     }
                 }
             }
-            
+            string functionString = FuncTextBox.Text.Trim();
+            bool containsTrigFunction = Regex.IsMatch(functionString, @"sin|cos|tan");
+            bool containsPolynomial = Regex.IsMatch(functionString, @"x\^\d+|\d+x");
+            bool containsExponential = Regex.IsMatch(functionString, @"exp\^x");
+
+            if (!containsTrigFunction && !containsPolynomial && !containsExponential)
+            {
+                MessageBox.Show("Пожалуйста, введите корректную функцию.");
+                return;
+            }
+
+
         }
 
         private void chartDichotomy_Click(object sender, EventArgs eventArgs)
@@ -90,19 +117,9 @@ namespace dichotomy
             txtAccuracy.Clear();
             chartDichotomy.Series[0].Points.Clear(); 
         }
-
-        // Метод функции
-        private double Func(double x)
-        {
-            return (27 - 18 * x + 2 * Math.Pow(x, 2)) * Math.Exp(-x / 3);
-        }
         private double AntiFunc(double x)
         {
-            return -((27 - 18 * x + 2 * Math.Pow(x, 2)) * Math.Exp(-x / 3));
-        }
-        private double Derivative(double x)
-        {
-            return ((4 * x - 18) * Math.Exp(-x / 3) - ((2 * Math.Pow(x, 2) - 18 * x + 27) * Math.Exp(-x / 3) / 3));
+            return -Func(x);
         }
         // Метод Дихотомии
         private double Dichotomy(double interval1, double interval2, int accuracy)
@@ -179,19 +196,61 @@ namespace dichotomy
 
             return Math.Round((a + b) / 2, accuracy);
         }
-        public double Newton(double interval1, double interval2, int accuracy)
+        public double Newton2(double interval1, double interval2, int accuracy)
         {
             double a = interval1, b = interval2;
             double x0 = (a + b) / 2; // начальное приближение
-
-            while (Math.Abs(Func(x0)) > Math.Pow(10, -accuracy))
+            double x1 = 100000;
+            bool flag = false;
+            while (Math.Abs(x1 - x0) > accuracy)
             {
-                double derivative = Derivative(x0);
-                x0 = x0 - Func(x0) / derivative;
+                if (flag)
+                {
+                    x0 = x1;
+                }
+                x1 = x0 - Func(x0) / Derivative(x0);
+                flag = true;
+            } 
+            return Math.Round(x1, accuracy); 
+        }
+        public double Newton3(double interval1, double interval2, int accuracy)
+        {
+            double a = interval1, b = interval2;
+            double x0 = (a + b) / 2; // начальное приближение
+            double epsilon = Math.Pow(10, -accuracy);
+            while (Math.Abs(Func(x0)) > epsilon)
+            {
+                var fPrime = Derivative(x0);
+                x0 = x0 - Func(x0) / fPrime;
+            }
+            return Math.Round(x0, accuracy);
+        }
+        public double Newton(double interval1, double interval2, int accuracy)
+        {
+            // Количество знаков после запятой для сравнения
+            double epsilon = Math.Pow(10, -accuracy);
+
+            // Начальное приближение
+            double x0 = (interval1 + interval2 - epsilon * 2) / 2;
+
+            // Итерационный процесс метода Ньютона
+            while (Math.Abs(Func(x0)) > epsilon) 
+            {
+                var fPrime = Derivative(x0);
+                x0 = x0 - Func(x0) / fPrime;
+                if (x0 > Func(0) - epsilon && x0 < Func(0) + epsilon)
+                    break;
             }
 
             return Math.Round(x0, accuracy);
         }
+        // (27-18*x+2*x^2)*exp(-x/3) 
+        double Derivative(double x)
+        {
+            double result = Differentiate.FirstDerivative(Func, x);
+            return result;
+        }
+        
         public double CoordinateDescent(double interval1, double interval2, int accuracy)
         {
             double a = interval1, b = interval2;
@@ -236,6 +295,17 @@ namespace dichotomy
             txtAccuracy.Clear();
             this.chartDichotomy.Series[0].Points.Clear();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void дихотомияToolStripMenuItem1_Click(object sender, EventArgs EventArgs)
         {
             // Решение задачи методом дихотомии
@@ -253,8 +323,14 @@ namespace dichotomy
                 dichotomyResult = resultDichotomy.ToString();
             }
             double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+            string elapsedTimeInNanosecondsResult;
+            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
             chartDichotomy_Click(sender, EventArgs);
             MessageBox.Show($"Ноль функции: {dichotomyResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+            ResultRoot.Text = dichotomyResult;
+            ResultMin.Text = "Отсутсвует в данном методе";
+            ResultMax.Text = "Отсутсвует в данном методе";
+            ResultTime.Text = elapsedTimeInNanosecondsResult;
         }
         private void золотоеСечениеToolStripMenuItem_Click(object sender, EventArgs EventArgs)
         {
@@ -283,8 +359,14 @@ namespace dichotomy
                 maxResult = resultMax.ToString();
             }
             double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+            string elapsedTimeInNanosecondsResult;
+            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
             chartDichotomy_Click(sender, EventArgs);
             MessageBox.Show($"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+            ResultRoot.Text = "Отсутсвует в данном методе";
+            ResultMin.Text = minResult;
+            ResultMax.Text = maxResult;
+            ResultTime.Text = elapsedTimeInNanosecondsResult;
         }
         private void ньютонToolStripMenuItem_Click(object sender, EventArgs EventArgs)
         {
@@ -302,9 +384,21 @@ namespace dichotomy
                 newtonResult = resultNewton.ToString();
             }
             double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+            string elapsedTimeInNanosecondsResult;
+            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
             chartDichotomy_Click(sender, EventArgs);
             MessageBox.Show($"Ноль функции: {newtonResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+            ResultRoot.Text = newtonResult;
+            ResultMin.Text = "Отсутсвует в данном методе";
+            ResultMax.Text = "Отсутсвует в данном методе";
+            ResultTime.Text = elapsedTimeInNanosecondsResult;
         }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void покоординатныйСпускToolStripMenuItem_Click(object sender, EventArgs EventArgs)
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -331,8 +425,14 @@ namespace dichotomy
                 maxResult = resultMax.ToString();
             }
             double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+            string elapsedTimeInNanosecondsResult;
+            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
             chartDichotomy_Click(sender, EventArgs);
             MessageBox.Show($"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+            ResultRoot.Text = "Отсутсвует в данном методе";
+            ResultMin.Text = minResult;
+            ResultMax.Text = maxResult;
+            ResultTime.Text = elapsedTimeInNanosecondsResult;
         }
     }
 }
