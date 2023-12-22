@@ -20,6 +20,8 @@ using System.Net;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Text.RegularExpressions;
 
+// (27-18*x+2*x^2)*exp(-x/3) 
+
 namespace dichotomy
 {
     public partial class DichotomyForm : Form
@@ -38,6 +40,7 @@ namespace dichotomy
         {
             InitializeComponent();
         }
+
 
         // Обработчик событий для пункта меню "Запустить"
         private void запуститьToolStripMenuItem_Click(object sender, EventArgs eventArgs)
@@ -80,13 +83,6 @@ namespace dichotomy
             bool containsPolynomial = Regex.IsMatch(functionString, @"x\^\d+|\d+x");
             bool containsExponential = Regex.IsMatch(functionString, @"exp\^x");
 
-            if (!containsTrigFunction && !containsPolynomial && !containsExponential)
-            {
-                MessageBox.Show("Пожалуйста, введите корректную функцию.");
-                return;
-            }
-
-
         }
 
         private void chartDichotomy_Click(object sender, EventArgs eventArgs)
@@ -115,6 +111,7 @@ namespace dichotomy
             txtInterval1.Clear();
             txtInterval2.Clear();
             txtAccuracy.Clear();
+            FuncTextBox.Clear();
             chartDichotomy.Series[0].Points.Clear(); 
         }
         private double AntiFunc(double x)
@@ -244,14 +241,14 @@ namespace dichotomy
 
             return Math.Round(x0, accuracy);
         }
-        // (27-18*x+2*x^2)*exp(-x/3) 
+        
         double Derivative(double x)
         {
             double result = Differentiate.FirstDerivative(Func, x);
             return result;
         }
         
-        public double CoordinateDescent(double interval1, double interval2, int accuracy)
+        public double CoordinateDescent1(double interval1, double interval2, int accuracy)
         {
             double a = interval1, b = interval2;
             double x = (a + b) / 2; // Инициализация начального значения x
@@ -269,7 +266,7 @@ namespace dichotomy
 
             return Math.Round(x, accuracy); // Возвращаем значение x с заданной точностью n
         }
-        public double AntiCoordinateDescent(double interval1, double interval2, int accuracy)
+        public double AntiCoordinateDescent1(double interval1, double interval2, int accuracy)
         {
             double a = interval1, b = interval2;
             double x = (a + b) / 2; // Инициализация начального значения x
@@ -278,6 +275,72 @@ namespace dichotomy
             while (b - a > delta) // Условие остановки
             {
                 if (AntiFunc(a) > AntiFunc(b)) 
+                    a = x; // Если значение функции в точке a больше, обновляем начальную границу
+                else
+                    b = x; // Иначе обновляем конечную границу
+
+                x = (a + b) / 2; // Вычисление нового значения x
+            }
+
+            return Math.Round(x, accuracy); // Возвращаем значение x с заданной точностью n
+        }
+        public double CoordinateDescent(double interval1, double interval2, int accuracy)
+        {
+            double a = interval1, b = interval2;
+            double x = (a + b) / 2; // Инициализация начального значения x
+            double delta = 1 / Math.Pow(10, accuracy); // Вычисление дельты по точности n
+
+            while (b - a > delta) // Условие остановки
+            {
+                double funcA = Func(a);
+                double funcB = Func(b);
+
+                if (funcA == 0 || funcB == 0)
+                {
+                    // Пропускаем итерацию, если в знаменателе функции будет 0
+                    if (funcA == 0)
+                        a = x;
+                    else
+                        b = x;
+
+                    x = (a + b) / 2; // Вычисление нового значения x
+                    continue;
+                }
+
+                if (funcA > funcB)
+                    a = x; // Если значение функции в точке a больше, обновляем начальную границу
+                else
+                    b = x; // Иначе обновляем конечную границу
+
+                x = (a + b) / 2; // Вычисление нового значения x
+            }
+
+            return Math.Round(x, accuracy); // Возвращаем значение x с заданной точностью n
+        }
+        public double AntiCoordinateDescent(double interval1, double interval2, int accuracy)
+        {
+            double a = interval1, b = interval2;
+            double x = (a + b) / 2; // Инициализация начального значения x
+            double delta = 1 / Math.Pow(10, accuracy); // Вычисление дельты по точности n
+
+            while (b - a > delta) // Условие остановки
+            {
+                double funcA = AntiFunc(a);
+                double funcB = AntiFunc(b);
+
+                if (funcA == 0 || funcB == 0)
+                {
+                    // Пропускаем итерацию, если в знаменателе функции будет 0
+                    if (funcA == 0)
+                        a = x;
+                    else
+                        b = x;
+
+                    x = (a + b) / 2; // Вычисление нового значения x
+                    continue;
+                }
+
+                if (funcA > funcB)
                     a = x; // Если значение функции в точке a больше, обновляем начальную границу
                 else
                     b = x; // Иначе обновляем конечную границу
@@ -308,90 +371,112 @@ namespace dichotomy
 
         private void дихотомияToolStripMenuItem1_Click(object sender, EventArgs EventArgs)
         {
-            // Решение задачи методом дихотомии
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            double resultDichotomy = Dichotomy(interval1, interval2, accuracy);
-            stopwatch.Stop();
-            string dichotomyResult;
-            if (resultDichotomy == interval1 || resultDichotomy == interval2)
+            try
             {
-                dichotomyResult = "Точки пересечения нет на данном интервале";
+                // Решение задачи методом дихотомии
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                double resultDichotomy = Dichotomy(interval1, interval2, accuracy);
+                stopwatch.Stop();
+                string dichotomyResult;
+                if (resultDichotomy == interval1 || resultDichotomy == interval2)
+                {
+                    dichotomyResult = "Точки пересечения нет на данном интервале";
+                }
+                else
+                {
+                    dichotomyResult = resultDichotomy.ToString();
+                }
+                double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+                string elapsedTimeInNanosecondsResult;
+                elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
+                chartDichotomy_Click(sender, EventArgs);
+                MessageBox.Show($"Ноль функции: {dichotomyResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+                ResultRoot.Text = dichotomyResult;
+                ResultMin.Text = "Отсутсвует в данном методе";
+                ResultMax.Text = "Отсутсвует в данном методе";
+                ResultTime.Text = elapsedTimeInNanosecondsResult;
             }
-            else
+            catch
             {
-                dichotomyResult = resultDichotomy.ToString();
+                Mistake();
             }
-            double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
-            string elapsedTimeInNanosecondsResult;
-            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
-            chartDichotomy_Click(sender, EventArgs);
-            MessageBox.Show($"Ноль функции: {dichotomyResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
-            ResultRoot.Text = dichotomyResult;
-            ResultMin.Text = "Отсутсвует в данном методе";
-            ResultMax.Text = "Отсутсвует в данном методе";
-            ResultTime.Text = elapsedTimeInNanosecondsResult;
         }
         private void золотоеСечениеToolStripMenuItem_Click(object sender, EventArgs EventArgs)
         {
-            // Решение задачи с помощью золотого сечения
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            double resultMin = GoldenSection(interval1, interval2, accuracy);
-            double resultMax = AntiGoldenSection(interval1, interval2, accuracy);
-            stopwatch.Stop();
-            string minResult;
-            string maxResult;
-            if (resultMin == interval1 || resultMin == interval2)
+            try
             {
-                minResult = "Точки минимума нет на данном интервале";
+                // Решение задачи с помощью золотого сечения
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                double resultMin = GoldenSection(interval1, interval2, accuracy);
+                double resultMax = AntiGoldenSection(interval1, interval2, accuracy);
+                stopwatch.Stop();
+                string minResult;
+                string maxResult;
+                if (resultMin == interval1 || resultMin == interval2)
+                {
+                    minResult = "Точки минимума нет на данном интервале";
+                }
+                else
+                {
+                    minResult = resultMin.ToString();
+                }
+                if (resultMax == interval1 || resultMax == interval2)
+                {
+                    maxResult = "Точки максимума нет на данном интервале";
+                }
+                else
+                {
+                    maxResult = resultMax.ToString();
+                }
+                double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+                string elapsedTimeInNanosecondsResult;
+                elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
+                chartDichotomy_Click(sender, EventArgs);
+                MessageBox.Show($"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+                ResultRoot.Text = "Отсутсвует в данном методе";
+                ResultMin.Text = minResult;
+                ResultMax.Text = maxResult;
+                ResultTime.Text = elapsedTimeInNanosecondsResult;
             }
-            else
+            catch
             {
-                minResult = resultMin.ToString();
+                Mistake();
             }
-            if (resultMax == interval1 || resultMax == interval2)
-            {
-                maxResult = "Точки максимума нет на данном интервале";
-            }
-            else
-            {
-                maxResult = resultMax.ToString();
-            }
-            double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
-            string elapsedTimeInNanosecondsResult;
-            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
-            chartDichotomy_Click(sender, EventArgs);
-            MessageBox.Show($"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
-            ResultRoot.Text = "Отсутсвует в данном методе";
-            ResultMin.Text = minResult;
-            ResultMax.Text = maxResult;
-            ResultTime.Text = elapsedTimeInNanosecondsResult;
         }
         private void ньютонToolStripMenuItem_Click(object sender, EventArgs EventArgs)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            double resultNewton = Newton(interval1, interval2, accuracy);
-            stopwatch.Stop();
-            string newtonResult;
-            if (resultNewton == interval1 || resultNewton == interval2)
+            try
             {
-                newtonResult = "Точки пересечения нет на данном интервале";
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                double resultNewton = Newton(interval1, interval2, accuracy);
+                stopwatch.Stop();
+                string newtonResult;
+                if (resultNewton == interval1 || resultNewton == interval2)
+                {
+                    newtonResult = "Точки пересечения нет на данном интервале";
+                }
+                else
+                {
+                    newtonResult = resultNewton.ToString();
+                }
+                double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+                string elapsedTimeInNanosecondsResult;
+                elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
+                chartDichotomy_Click(sender, EventArgs);
+                MessageBox.Show($"Ноль функции: {newtonResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+                ResultRoot.Text = newtonResult;
+                ResultMin.Text = "Отсутсвует в данном методе";
+                ResultMax.Text = "Отсутсвует в данном методе";
+                ResultTime.Text = elapsedTimeInNanosecondsResult;
             }
-            else
+            catch
             {
-                newtonResult = resultNewton.ToString();
+                Mistake();
             }
-            double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
-            string elapsedTimeInNanosecondsResult;
-            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
-            chartDichotomy_Click(sender, EventArgs);
-            MessageBox.Show($"Ноль функции: {newtonResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
-            ResultRoot.Text = newtonResult;
-            ResultMin.Text = "Отсутсвует в данном методе";
-            ResultMax.Text = "Отсутсвует в данном методе";
-            ResultTime.Text = elapsedTimeInNanosecondsResult;
+
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
@@ -399,40 +484,66 @@ namespace dichotomy
 
         }
 
+        private void сЛАУToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SLAU slauForm = new SLAU(this);
+            this.Hide();
+            slauForm.Show();
+        }
+
+        private void интегралToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            integral integralForm = new integral(this);
+            this.Hide();
+            integralForm.Show();
+        }
+
         private void покоординатныйСпускToolStripMenuItem_Click(object sender, EventArgs EventArgs)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            double resultMin = CoordinateDescent(interval1, interval2, accuracy);
-            double resultMax = AntiCoordinateDescent(interval1, interval2, accuracy);
-            stopwatch.Stop();
-            string minResult;
-            string maxResult;
-            if (resultMin == interval1 || resultMin == interval2)
+            try
             {
-                minResult = "Точки минимума нет на данном интервале";
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                double resultMin = CoordinateDescent(interval1, interval2, accuracy);
+                double resultMax = AntiCoordinateDescent(interval1, interval2, accuracy);
+                stopwatch.Stop();
+                string minResult;
+                string maxResult;
+                if (resultMin == interval1 || resultMin == interval2)
+                {
+                    minResult = "Точки минимума нет на данном интервале";
+                }
+                else
+                {
+                    minResult = resultMin.ToString();
+                }
+                if (resultMax == interval1 || resultMax == interval2)
+                {
+                    maxResult = "Точки максимума нет на данном интервале";
+                }
+                else
+                {
+                    maxResult = resultMax.ToString();
+                }
+                double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
+                string elapsedTimeInNanosecondsResult;
+                elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
+                chartDichotomy_Click(sender, EventArgs);
+                MessageBox.Show($"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
+                ResultRoot.Text = "Отсутсвует в данном методе";
+                ResultMin.Text = minResult;
+                ResultMax.Text = maxResult;
+                ResultTime.Text = elapsedTimeInNanosecondsResult;
             }
-            else
+            catch
             {
-                minResult = resultMin.ToString();
+                Mistake();
             }
-            if (resultMax == interval1 || resultMax == interval2)
-            {
-                maxResult = "Точки максимума нет на данном интервале";
-            }
-            else
-            {
-                maxResult = resultMax.ToString();
-            }
-            double elapsedTimeInNanoseconds = stopwatch.Elapsed.TotalMilliseconds * 1000000;
-            string elapsedTimeInNanosecondsResult;
-            elapsedTimeInNanosecondsResult = elapsedTimeInNanoseconds.ToString();
-            chartDichotomy_Click(sender, EventArgs);
-            MessageBox.Show($"Точка минимума: {minResult}\n" + $"Точка максимума: {maxResult} \n Время выполнения: {elapsedTimeInNanoseconds} наносекунд");
-            ResultRoot.Text = "Отсутсвует в данном методе";
-            ResultMin.Text = minResult;
-            ResultMax.Text = maxResult;
-            ResultTime.Text = elapsedTimeInNanosecondsResult;
+        }
+
+        void Mistake()
+        {
+            MessageBox.Show("Некорректный ввод");
         }
     }
 }

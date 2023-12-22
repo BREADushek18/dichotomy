@@ -59,10 +59,25 @@
     <Compile Include="Dichotomy.Designer.cs">
       <DependentUpon>Dichotomy.cs</DependentUpon>
     </Compile>
+    <Compile Include="integral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="integral.Designer.cs">
+      <DependentUpon>integral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SLAU.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SLAU.Designer.cs">
+      <DependentUpon>SLAU.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Dichotomy.resx">
       <DependentUpon>Dichotomy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="integral.resx">
+      <DependentUpon>integral.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -73,6 +88,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SLAU.resx">
+      <DependentUpon>SLAU.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

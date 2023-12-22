@@ -32,8 +32,8 @@ namespace dichotomy
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chartDichotomy = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblFormula = new System.Windows.Forms.Label();
             this.lblIntervalStart = new System.Windows.Forms.Label();
@@ -54,6 +54,8 @@ namespace dichotomy
             this.быстраяСортировкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сортировкаBOGOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.покоординатныйСпускToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сЛАУToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.интегралToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.очиститьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Result = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -70,17 +72,17 @@ namespace dichotomy
             // 
             // chartDichotomy
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chartDichotomy.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "ChartArea1";
+            this.chartDichotomy.ChartAreas.Add(chartArea1);
             this.chartDichotomy.Location = new System.Drawing.Point(464, 24);
             this.chartDichotomy.Name = "chartDichotomy";
-            series3.BorderWidth = 4;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Color = System.Drawing.Color.Orange;
-            series3.Name = "Series1";
-            series3.ShadowColor = System.Drawing.Color.White;
-            this.chartDichotomy.Series.Add(series3);
+            series1.BorderWidth = 4;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Color = System.Drawing.Color.Orange;
+            series1.Name = "Series1";
+            series1.ShadowColor = System.Drawing.Color.White;
+            this.chartDichotomy.Series.Add(series1);
             this.chartDichotomy.Size = new System.Drawing.Size(689, 424);
             this.chartDichotomy.TabIndex = 0;
             this.chartDichotomy.Text = "chart1";
@@ -156,7 +158,9 @@ namespace dichotomy
             this.золотоеСечениеToolStripMenuItem,
             this.ньютонToolStripMenuItem,
             this.олимпиадныеСортировкиToolStripMenuItem,
-            this.покоординатныйСпускToolStripMenuItem});
+            this.покоординатныйСпускToolStripMenuItem,
+            this.сЛАУToolStripMenuItem,
+            this.интегралToolStripMenuItem});
             this.запуститьToolStripMenuItem.Name = "запуститьToolStripMenuItem";
             this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.запуститьToolStripMenuItem.Text = "Запустить";
@@ -165,21 +169,21 @@ namespace dichotomy
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(222, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(299, 22);
             this.toolStripMenuItem1.Text = "Дихотомия";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.дихотомияToolStripMenuItem1_Click);
             // 
             // золотоеСечениеToolStripMenuItem
             // 
             this.золотоеСечениеToolStripMenuItem.Name = "золотоеСечениеToolStripMenuItem";
-            this.золотоеСечениеToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.золотоеСечениеToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
             this.золотоеСечениеToolStripMenuItem.Text = "Золотое сечение";
             this.золотоеСечениеToolStripMenuItem.Click += new System.EventHandler(this.золотоеСечениеToolStripMenuItem_Click);
             // 
             // ньютонToolStripMenuItem
             // 
             this.ньютонToolStripMenuItem.Name = "ньютонToolStripMenuItem";
-            this.ньютонToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.ньютонToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
             this.ньютонToolStripMenuItem.Text = "Ньютон";
             this.ньютонToolStripMenuItem.Click += new System.EventHandler(this.ньютонToolStripMenuItem_Click);
             // 
@@ -192,8 +196,8 @@ namespace dichotomy
             this.быстраяСортировкаToolStripMenuItem,
             this.сортировкаBOGOToolStripMenuItem});
             this.олимпиадныеСортировкиToolStripMenuItem.Name = "олимпиадныеСортировкиToolStripMenuItem";
-            this.олимпиадныеСортировкиToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.олимпиадныеСортировкиToolStripMenuItem.Text = "Олимпиадные сортировки";
+            this.олимпиадныеСортировкиToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
+            this.олимпиадныеСортировкиToolStripMenuItem.Text = "Олимпиадные сортировки (в доработке)";
             // 
             // пузырьковаяСортировкаToolStripMenuItem
             // 
@@ -228,9 +232,23 @@ namespace dichotomy
             // покоординатныйСпускToolStripMenuItem
             // 
             this.покоординатныйСпускToolStripMenuItem.Name = "покоординатныйСпускToolStripMenuItem";
-            this.покоординатныйСпускToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.покоординатныйСпускToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
             this.покоординатныйСпускToolStripMenuItem.Text = "Покоординатный спуск";
             this.покоординатныйСпускToolStripMenuItem.Click += new System.EventHandler(this.покоординатныйСпускToolStripMenuItem_Click);
+            // 
+            // сЛАУToolStripMenuItem
+            // 
+            this.сЛАУToolStripMenuItem.Name = "сЛАУToolStripMenuItem";
+            this.сЛАУToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
+            this.сЛАУToolStripMenuItem.Text = "СЛАУ (в доработке)";
+            this.сЛАУToolStripMenuItem.Click += new System.EventHandler(this.сЛАУToolStripMenuItem_Click);
+            // 
+            // интегралToolStripMenuItem
+            // 
+            this.интегралToolStripMenuItem.Name = "интегралToolStripMenuItem";
+            this.интегралToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
+            this.интегралToolStripMenuItem.Text = "Интеграл";
+            this.интегралToolStripMenuItem.Click += new System.EventHandler(this.интегралToolStripMenuItem_Click);
             // 
             // очиститьToolStripMenuItem
             // 
@@ -333,7 +351,7 @@ namespace dichotomy
             this.Controls.Add(this.txtAccuracy);
             this.Controls.Add(this.menuStrip);
             this.Name = "DichotomyForm";
-            this.Text = "Form1";
+            this.Text = "МВП (Моя Великая Программа)";
             ((System.ComponentModel.ISupportInitialize)(this.chartDichotomy)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
@@ -376,6 +394,8 @@ namespace dichotomy
         private TextBox ResultMax;
         private TextBox ResultTime;
         private TextBox FuncTextBox;
+        private ToolStripMenuItem сЛАУToolStripMenuItem;
+        private ToolStripMenuItem интегралToolStripMenuItem;
     }
 }
 
