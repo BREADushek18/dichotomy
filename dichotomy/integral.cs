@@ -26,8 +26,8 @@ namespace dichotomy
         {
             InitializeComponent();
             mainForm = form;
-            MaximizeBox = false;
-            FormBorderStyle = FormBorderStyle.Fixed3D;
+            //MaximizeBox = false;
+            //FormBorderStyle = FormBorderStyle.Fixed3D;
 
             timer1.Interval = 5400; // Интервал в миллисекундах (5 секунд = 5000 мс)
             timer1.Tick += new EventHandler(timer1_Tick);

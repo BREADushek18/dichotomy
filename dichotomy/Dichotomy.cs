@@ -498,6 +498,13 @@ namespace dichotomy
             integralForm.Show();
         }
 
+        private void мНКToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MNK mnkForm = new MNK(this);
+            this.Hide();
+            mnkForm.Show();
+        }
+
         private void покоординатныйСпускToolStripMenuItem_Click(object sender, EventArgs EventArgs)
         {
             try
@@ -540,6 +547,8 @@ namespace dichotomy
                 Mistake();
             }
         }
+
+        
 
         void Mistake()
         {

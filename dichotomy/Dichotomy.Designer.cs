@@ -32,8 +32,8 @@ namespace dichotomy
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chartDichotomy = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblFormula = new System.Windows.Forms.Label();
             this.lblIntervalStart = new System.Windows.Forms.Label();
@@ -66,23 +66,24 @@ namespace dichotomy
             this.ResultMax = new System.Windows.Forms.TextBox();
             this.ResultTime = new System.Windows.Forms.TextBox();
             this.FuncTextBox = new System.Windows.Forms.TextBox();
+            this.мНКToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chartDichotomy)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // chartDichotomy
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartDichotomy.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.chartDichotomy.ChartAreas.Add(chartArea2);
             this.chartDichotomy.Location = new System.Drawing.Point(464, 24);
             this.chartDichotomy.Name = "chartDichotomy";
-            series1.BorderWidth = 4;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Color = System.Drawing.Color.Orange;
-            series1.Name = "Series1";
-            series1.ShadowColor = System.Drawing.Color.White;
-            this.chartDichotomy.Series.Add(series1);
+            series2.BorderWidth = 4;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = System.Drawing.Color.Orange;
+            series2.Name = "Series1";
+            series2.ShadowColor = System.Drawing.Color.White;
+            this.chartDichotomy.Series.Add(series2);
             this.chartDichotomy.Size = new System.Drawing.Size(689, 424);
             this.chartDichotomy.TabIndex = 0;
             this.chartDichotomy.Text = "chart1";
@@ -160,7 +161,8 @@ namespace dichotomy
             this.олимпиадныеСортировкиToolStripMenuItem,
             this.покоординатныйСпускToolStripMenuItem,
             this.сЛАУToolStripMenuItem,
-            this.интегралToolStripMenuItem});
+            this.интегралToolStripMenuItem,
+            this.мНКToolStripMenuItem});
             this.запуститьToolStripMenuItem.Name = "запуститьToolStripMenuItem";
             this.запуститьToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
             this.запуститьToolStripMenuItem.Text = "Запустить";
@@ -327,6 +329,13 @@ namespace dichotomy
             this.FuncTextBox.TabIndex = 17;
             this.FuncTextBox.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
+            // мНКToolStripMenuItem
+            // 
+            this.мНКToolStripMenuItem.Name = "мНКToolStripMenuItem";
+            this.мНКToolStripMenuItem.Size = new System.Drawing.Size(299, 22);
+            this.мНКToolStripMenuItem.Text = "МНК";
+            this.мНКToolStripMenuItem.Click += new System.EventHandler(this.мНКToolStripMenuItem_Click);
+            // 
             // DichotomyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -396,6 +405,7 @@ namespace dichotomy
         private TextBox FuncTextBox;
         private ToolStripMenuItem сЛАУToolStripMenuItem;
         private ToolStripMenuItem интегралToolStripMenuItem;
+        private ToolStripMenuItem мНКToolStripMenuItem;
     }
 }
 
